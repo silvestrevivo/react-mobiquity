@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
+import YearButton from './yearButton';
+import Footer from './footer';
 
 class App extends Component {
   state = {
     allRaces: [],
     allWinners: [],
-    anyos: ['2005', '2006', '2007'],
+    seasons: [],
     racesPerYear: [],
     winnerPerYear: '',
+    loading: true,
   };
 
   componentDidMount() {
@@ -22,7 +26,8 @@ class App extends Component {
           // spreading both responses
           const allRaces = allRacesRes.data.MRData.RaceTable.Races;
           const allWinners = allWinnersRes.data.MRData.StandingsTable.StandingsLists;
-          this.setState({ allRaces, allWinners });
+          const seasons = [...new Set(allRaces.map(element => element.season))];
+          this.setState({ allRaces, allWinners, seasons, loading: false });
         })
       )
       .catch(error => {
@@ -33,16 +38,17 @@ class App extends Component {
 
   showRace = year => {
     const { allRaces, allWinners } = this.state;
-    console.log(year);
     const racesPerYear = allRaces.filter(element => element.season === `${year}`);
     const winnerPerYear = allWinners.filter(item => item.season === `${year}`)[0].round;
     this.setState({ racesPerYear, winnerPerYear });
   };
 
   render() {
-    const { allRaces, allWinners, anyos, racesPerYear, winnerPerYear } = this.state;
-    console.log('allRaces', allRaces);
-    console.log('allWinners', allWinners);
+    const { seasons, racesPerYear, winnerPerYear, loading } = this.state;
+
+    const yearButtons = seasons.map((item, i) => (
+      <YearButton key={i} year={item} click={() => this.showRace(item)} />
+    ));
 
     const results = racesPerYear.map(element => (
       <li key={element.round} className={element.round === winnerPerYear ? 'active' : ''}>
@@ -57,13 +63,15 @@ class App extends Component {
 
     return (
       <div>
-        <h1>React Mobiquity</h1>
-        {anyos.map((item, i) => (
-          <button key={i} type="button" onClick={() => this.showRace(item)}>
-            {item}
-          </button>
-        ))}
-        <ul>{<p>No race</p> && results}</ul>
+        <header>
+          <h1>React Mobiquity</h1>
+        </header>
+        <main>
+          <ClipLoader color="#fff" size={100} loading={loading} />
+          {yearButtons}
+          <ul>{<p>No race</p> && results}</ul>
+        </main>
+        <Footer />
       </div>
     );
   }
