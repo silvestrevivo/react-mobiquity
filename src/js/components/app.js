@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios';
+import { Tooltip } from 'react-tippy';
 
 import Aux from './hoc/aux';
 import YearButton from './yearButton';
@@ -49,15 +50,37 @@ class App extends Component {
   };
 
   render() {
-    const { seasons, racesPerYear, winnerPerYear, loading, modal } = this.state;
+    const {
+      seasons,
+      racesPerYear,
+      winnerPerYear,
+      winnerPerYear: { DriverStandings },
+      loading,
+      modal,
+    } = this.state;
 
     const yearButtons = seasons.map((item, i) => (
       <YearButton key={i} year={item} click={() => this.showRace(item)} />
     ));
 
-    const results = racesPerYear.map(item => (
-      <Standing key={item.round} item={item} winnerPerYear={winnerPerYear} />
-    ));
+    const results = racesPerYear.map((item, i) => {
+      const winner = DriverStandings[0];
+      return item.round !== winnerPerYear.round ? (
+        <Standing key={i} item={item} />
+      ) : (
+        <Tooltip
+          html={
+            <div>
+              On this season the winner was{' '}
+              <strong>{`${winner.Driver.givenName} ${winner.Driver.familyName}`} </strong>
+              with {winner.points} points in the round {winnerPerYear.round}
+            </div>
+          }
+        >
+          <Standing key={i} item={item} winnerPerYear={winnerPerYear} />
+        </Tooltip>
+      );
+    });
 
     return (
       <Aux>
