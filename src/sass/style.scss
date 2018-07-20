@@ -12,7 +12,7 @@ html, body{
 	color: green;
 }
 
-.year{
+.btn-year{
 	margin: 5px;
 	padding: 8px 16px;
 	border: 1px solid #fff;
@@ -55,14 +55,33 @@ footer{
 }
 
 .modal{
-	height: 70vh;
 	width: 70%;
 	left: 15%;
 	top: -100vh;
 	transition: .4s all ease-in-out;
 	background-color: rgba(255, 255, 255, 0.6);
 	position: absolute;
+	padding: 15px;
 	&.active{
 		top: 15vh;
+	}
+	&__list{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+}
+
+.list {
+	border-top: 1px solid rgba(255, 255, 255, 0.4);
+	font-size: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	&:last-child{
+		border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+	}
+	p {
+		margin: 8px 0;
 	}
 }

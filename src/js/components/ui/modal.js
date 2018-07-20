@@ -7,7 +7,7 @@ const Modal = ({ status, click, children }) => (
   <Aux>
     <div className={classNames('backdrop', status ? 'active' : '')} onClick={click} aria-hidden />
     <div className={classNames('modal', status ? 'active' : '')}>
-      <ul>{children}</ul>
+      <ul className="modal__list">{children}</ul>
     </div>
   </Aux>
 );

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
+import axios from 'axios';
+
 import Aux from './hoc/aux';
 import YearButton from './yearButton';
-
 import Footer from './footer';
 import Modal from './ui/modal';
+import Standing from './standing';
 
 class App extends Component {
   state = {
@@ -43,7 +44,7 @@ class App extends Component {
   showRace = year => {
     const { allRaces, allWinners } = this.state;
     const racesPerYear = allRaces.filter(element => element.season === `${year}`);
-    const winnerPerYear = allWinners.filter(item => item.season === `${year}`)[0].round;
+    const winnerPerYear = allWinners.filter(item => item.season === `${year}`)[0];
     this.setState({ racesPerYear, winnerPerYear, modal: true });
   };
 
@@ -54,15 +55,8 @@ class App extends Component {
       <YearButton key={i} year={item} click={() => this.showRace(item)} />
     ));
 
-    const results = racesPerYear.map(element => (
-      <li key={element.round} className={element.round === winnerPerYear ? 'winner' : ''}>
-        <p>
-          {element.round}{' '}
-          <span>
-            {element.Results[0].Driver.familyName} - {element.raceName}
-          </span>
-        </p>
-      </li>
+    const results = racesPerYear.map(item => (
+      <Standing key={item.round} item={item} winnerPerYear={winnerPerYear} />
     ));
 
     return (
