@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
+import Aux from './hoc/aux';
 import YearButton from './yearButton';
+
 import Footer from './footer';
+import Modal from './ui/modal';
 
 class App extends Component {
   state = {
@@ -13,6 +16,7 @@ class App extends Component {
     racesPerYear: [],
     winnerPerYear: '',
     loading: true,
+    modal: false,
   };
 
   componentDidMount() {
@@ -40,18 +44,18 @@ class App extends Component {
     const { allRaces, allWinners } = this.state;
     const racesPerYear = allRaces.filter(element => element.season === `${year}`);
     const winnerPerYear = allWinners.filter(item => item.season === `${year}`)[0].round;
-    this.setState({ racesPerYear, winnerPerYear });
+    this.setState({ racesPerYear, winnerPerYear, modal: true });
   };
 
   render() {
-    const { seasons, racesPerYear, winnerPerYear, loading } = this.state;
+    const { seasons, racesPerYear, winnerPerYear, loading, modal } = this.state;
 
     const yearButtons = seasons.map((item, i) => (
       <YearButton key={i} year={item} click={() => this.showRace(item)} />
     ));
 
     const results = racesPerYear.map(element => (
-      <li key={element.round} className={element.round === winnerPerYear ? 'active' : ''}>
+      <li key={element.round} className={element.round === winnerPerYear ? 'winner' : ''}>
         <p>
           {element.round}{' '}
           <span>
@@ -62,17 +66,19 @@ class App extends Component {
     ));
 
     return (
-      <div>
+      <Aux>
+        <Modal status={modal} click={() => this.setState({ modal: false })}>
+          {results}
+        </Modal>
         <header>
           <h1>React Mobiquity</h1>
         </header>
         <main>
           <ClipLoader color="#fff" size={100} loading={loading} />
           {yearButtons}
-          <ul>{<p>No race</p> && results}</ul>
         </main>
         <Footer />
-      </div>
+      </Aux>
     );
   }
 }
