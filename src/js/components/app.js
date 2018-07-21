@@ -69,6 +69,7 @@ class App extends Component {
         <Standing key={i} item={item} />
       ) : (
         <Tooltip
+          key={i}
           html={
             <div>
               On this season the winner was{' '}
@@ -77,7 +78,7 @@ class App extends Component {
             </div>
           }
         >
-          <Standing key={i} item={item} winnerPerYear={winnerPerYear} />
+          <Standing item={item} winnerPerYear={winnerPerYear} />
         </Tooltip>
       );
     });

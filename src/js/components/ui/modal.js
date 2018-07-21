@@ -20,8 +20,8 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   status: false,
-  click: false,
-  children: false,
+  click: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default Modal;
