@@ -3,25 +3,27 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const Standing = ({ item, winnerPerYear }) => (
-  <li className={classNames('list', item.round === winnerPerYear.round ? 'winner' : '')}>
-    <p>Round: {item.round}</p>
+  <li
+    className={classNames('standing', item.round === winnerPerYear.round ? 'standing__winner' : '')}
+  >
+    <p>{item.round}</p>
     <p>
-      Winner: {`${item.Results[0].Driver.givenName} ${item.Results[0].Driver.familyName}`} /{' '}
+      {`${item.Results[0].Driver.givenName} ${item.Results[0].Driver.familyName}`} /{' '}
       <span>{item.Results[0].Constructor.constructorId}</span>
     </p>
-    <p>Circuit: {item.raceName}</p>
-    <p>Date: {item.date}</p>
+    <p>{item.raceName}</p>
+    <p>{item.date}</p>
   </li>
 );
 
 Standing.propTypes = {
   item: PropTypes.object,
-  winnerPerYear: PropTypes.string,
+  winnerPerYear: PropTypes.object,
 };
 
 Standing.defaultProps = {
-  item: false,
-  winnerPerYear: false,
+  item: {},
+  winnerPerYear: {},
 };
 
 export default Standing;

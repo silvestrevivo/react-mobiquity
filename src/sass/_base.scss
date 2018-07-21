@@ -1,0 +1,77 @@
+///////  Reset for normalize ////////
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    //font-size: 10px;   =>   if we put this, we take px as absolute measeure
+    //thus 1rem = 10px   =>   on this way is easier to calculate
+    //but the best way is with % => it takes the measures of the browser
+    font-size: 62.5%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased;
+
+    @include respond(big-destop){
+        font-size: 70%; // 1rem = 12px, 12 / 16 = 75%
+    }
+    @include respond(tab-land){
+        font-size: 56.25%; // 1rem = 9px, 9 / 16 = 56.25%
+    }
+    @include respond(tab-port){
+        font-size: 50%; // 1rem = 8px, 8 / 16 = 50%
+    }
+    @include respond(phone){
+        font-size: 43.75%; // 1rem = 7px, 7 / 16 = 43,75%
+    }
+}
+
+ol, ul {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    outline: 0;
+    text-decoration: none;
+    &:active,
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link {
+        outline: 0;
+	    text-decoration: none;
+    }
+}
+
+body {
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+////// Base for the proyect itself //////
+html, body{
+    height: 100%;
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    padding: 1rem;
+    background-color: #1c78c0;
+    text-align: center;
+	color: #fff;
+
+    @include respond(tab-port){
+        padding: 0;
+    }
+}
+
+h1 {
+    font-size: 3rem;
+}

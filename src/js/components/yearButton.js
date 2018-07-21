@@ -13,8 +13,8 @@ YearButton.propTypes = {
 };
 
 YearButton.defaultProps = {
-  year: false,
-  click: false,
+  year: '',
+  click: PropTypes.func,
 };
 
 export default YearButton;

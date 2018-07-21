@@ -2,12 +2,16 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Aux from '../hoc/aux';
+import Heading from './heading';
 
 const Modal = ({ status, click, children }) => (
   <Aux>
     <div className={classNames('backdrop', status ? 'active' : '')} onClick={click} aria-hidden />
     <div className={classNames('modal', status ? 'active' : '')}>
-      <ul className="modal__list">{children}</ul>
+      <ul className="modal__list">
+        <Heading />
+        {children}
+      </ul>
     </div>
   </Aux>
 );
@@ -20,8 +24,8 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   status: false,
-  click: false,
-  children: false,
+  click: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default Modal;

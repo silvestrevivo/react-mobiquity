@@ -9,6 +9,7 @@ import YearButton from './yearButton';
 import Footer from './footer';
 import Modal from './ui/modal';
 import Standing from './standing';
+import Flags from './flags';
 
 class App extends Component {
   state = {
@@ -69,6 +70,8 @@ class App extends Component {
         <Standing key={i} item={item} />
       ) : (
         <Tooltip
+          key={i}
+          size="big"
           html={
             <div>
               On this season the winner was{' '}
@@ -77,7 +80,7 @@ class App extends Component {
             </div>
           }
         >
-          <Standing key={i} item={item} winnerPerYear={winnerPerYear} />
+          <Standing item={item} winnerPerYear={winnerPerYear} />
         </Tooltip>
       );
     });
@@ -93,6 +96,7 @@ class App extends Component {
         <main>
           <ClipLoader color="#fff" size={100} loading={loading} />
           {yearButtons}
+          <Flags />
         </main>
         <Footer />
       </Aux>
