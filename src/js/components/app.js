@@ -70,6 +70,7 @@ class App extends Component {
       ) : (
         <Tooltip
           key={i}
+          size="big"
           html={
             <div>
               On this season the winner was{' '}
