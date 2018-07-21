@@ -26,10 +26,12 @@ This project is based in __React + Webpackt4__. For more information about how t
 For this project was only needed a _stateful component_ which is working as _container_ for the application; the rest are _stateless components_. In any case, each component in JavaScript has a corresponding SCSS file, thus this application doesn't work with CSS modules.
 
 ## SASS / CSS
-SCSS files are based on the __BEM__ system and classes in HTML are called regarding the -B.E.M._ rules. For the responsiveness, sizes are relative and based on __rem__ units. To avoid problems with browsers interpretations about the behaviour of measurements, on the _base.scss_ files is places a general ajustment for the _html tag_. For more information about how to do that, please visit the next personal [repository][3].
+SCSS files are based on the __BEM__ system and classes in HTML are called regarding the _B.E.M._ rules. For the responsiveness, sizes are relative and based on __rem__ units. To avoid problems with browsers interpretations about the behaviour of measurements, on the _base.scss_ files is places a general ajustment for the _html tag_. For more information about how to do that, please visit the next personal [repository][3].
 
 ## React
 To call the server is used __Axios__ as library to use promises for catching data. This way is more complete than the simple __fetch()__ methode from native JavaScript. For more information about this, please visit the next personal [repository][4] with an explanation which is showing the differences between both methods.
+
+The application starts calling to two differents end points. To avoid sincronisation problems between both due to the asynchronous behavior, the calls are spreaded in an array, using one of the best benefits of Axios.
 
 Esencially there is a loop which shows the results depending of the _year_ parameter, and at the same time it matchs a property of other loop to make one element different than the others. This one is the final result / aim of this exercise.
 
