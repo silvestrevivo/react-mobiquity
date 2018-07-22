@@ -37,6 +37,10 @@ Esencially there is a loop which shows the results depending of the _year_ param
 
 Modal with animation and backdrop is done with pure CSS, and tooltip is a component based on the library [react-tippy][5].
 
+## MobX
+
+There is a second branch called _MobX_ which contains a another version with the __state management__ done by **MobX**.
+
 [1]: https://github.com/silvestrevivo/webpack4-starter
 [2]: https://github.com/airbnb/javascript
 [3]: https://github.com/silvestrevivo/natours-css
