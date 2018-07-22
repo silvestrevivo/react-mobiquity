@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { hot } from 'react-hot-loader';
+import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
-import axios from 'axios';
 import { Tooltip } from 'react-tippy';
-
+import { observer, inject } from 'mobx-react';
 import Aux from './hoc/aux';
 import YearButton from './yearButton';
 import Footer from './footer';
@@ -12,60 +11,30 @@ import Standing from './standing';
 import Flags from './flags';
 
 class App extends Component {
-  state = {
-    allRaces: [],
-    allWinners: [],
-    seasons: [],
-    racesPerYear: [],
-    winnerPerYear: '',
-    loading: true,
-    modal: false,
+  static propTypes = {
+    store: PropTypes.object,
+  };
+
+  static defaultProps = {
+    store: {},
   };
 
   componentDidMount() {
-    axios
-      .all([
-        axios.get('http://ergast.com/api/f1/results/1.json?limit=204&offset=734'),
-        axios.get('http://ergast.com/api/f1/driverStandings/1.json?limit=11&offset=55'),
-      ])
-      .then(
-        axios.spread((allRacesRes, allWinnersRes) => {
-          // spreading both responses
-          const allRaces = allRacesRes.data.MRData.RaceTable.Races;
-          const allWinners = allWinnersRes.data.MRData.StandingsTable.StandingsLists;
-          const seasons = [...new Set(allRaces.map(element => element.season))];
-          this.setState({ allRaces, allWinners, seasons, loading: false });
-        })
-      )
-      .catch(error => {
-        // handle error for any of both
-        console.log(error);
-      });
+    const { store } = this.props;
+    store.fetchingData();
   }
-
-  showRace = year => {
-    const { allRaces, allWinners } = this.state;
-    const racesPerYear = allRaces.filter(element => element.season === `${year}`);
-    const winnerPerYear = allWinners.filter(item => item.season === `${year}`)[0];
-    this.setState({ racesPerYear, winnerPerYear, modal: true });
-  };
 
   render() {
     const {
-      seasons,
-      racesPerYear,
-      winnerPerYear,
-      winnerPerYear: { DriverStandings },
-      loading,
-      modal,
-    } = this.state;
+      store: { seasons, racesPerYear, winnerPerYear, showRace, loading, modal, closeModal },
+    } = this.props;
 
     const yearButtons = seasons.map((item, i) => (
-      <YearButton key={i} year={item} click={() => this.showRace(item)} />
+      <YearButton key={i} year={item} click={() => showRace(item)} />
     ));
 
     const results = racesPerYear.map((item, i) => {
-      const winner = DriverStandings[0];
+      const winner = winnerPerYear.DriverStandings[0];
       return item.round !== winnerPerYear.round ? (
         <Standing key={i} item={item} />
       ) : (
@@ -87,7 +56,7 @@ class App extends Component {
 
     return (
       <Aux>
-        <Modal status={modal} click={() => this.setState({ modal: false })}>
+        <Modal status={modal} click={closeModal}>
           {results}
         </Modal>
         <header>
@@ -104,4 +73,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App);
+export default inject('store')(observer(App));

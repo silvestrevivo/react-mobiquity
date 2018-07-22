@@ -10,23 +10,6 @@
     "stage-1"
   ],
   "plugins": [
-    [
-      "react-hot-loader/babel"
-    ],
-    [
-      "transform-class-properties",
-      {
-        "spec": true
-      }
-    ],
-    [
-      "transform-object-rest-spread"
-    ],
-    [
-      "transform-runtime"
-    ],
-    [
-      "emotion"
-    ]
+    "transform-decorators-legacy"
   ]
 }
